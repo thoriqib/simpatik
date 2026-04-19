@@ -1,47 +1,54 @@
-{{-- Layout utama dengan header BPS --}}
-<header style="background:#003580;" class="text-white p-4 text-center">
-    <img src="{{ asset('images/logo-bps.png') }}" alt="BPS" class="h-12 inline mr-3">
-    <h1 class="text-xl font-bold inline">PST BPS Kota Jambi</h1>
-</header>
+@extends('layouts.app-publik')
 
-<main class="max-w-lg mx-auto p-4">
-    <h2 class="text-center text-lg font-semibold mb-4">Ambil Nomor Antrian</h2>
+@section('title', 'Ambil Antrian')
 
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-3 rounded mb-4">{{ session('success') }}</div>
-    @endif
+@section('content')
+<div class="text-center mb-6">
+    <h2 class="text-xl font-bold text-gray-800">Ambil Nomor Antrian</h2>
+    <p class="text-sm text-gray-500 mt-1">Isi data di bawah untuk mendapatkan nomor antrian Anda</p>
+</div>
 
-    <form action="{{ route('antrian.ambil') }}" method="POST">
+<x-card>
+    <form action="{{ route('antrian.ambil') }}" method="POST" class="space-y-4">
         @csrf
-        <div class="mb-3">
-            <label>Jenis Layanan</label>
-            <select name="jenis_layanan_id" class="w-full border rounded p-2" required>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Jenis Layanan <span class="text-red-500">*</span>
+            </label>
+            <select name="jenis_layanan_id"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+                       focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                <option value="">Pilih jenis layanan...</option>
                 @foreach($jenisLayanan as $jenis)
-                <option value="{{ $jenis->id }}">{{ $jenis->nama_layanan }}</option>
+                <option value="{{ $jenis->id }}" {{ old('jenis_layanan_id') == $jenis->id ? 'selected' : '' }}>
+                    [{{ $jenis->kode }}] {{ $jenis->nama_layanan }}
+                </option>
                 @endforeach
             </select>
+            @error('jenis_layanan_id')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
         </div>
-        <div class="mb-3">
-            <label>Nama Lengkap <span class="text-red-500">*</span></label>
-            <input type="text" name="nama_pengunjung" class="w-full border rounded p-2" required>
-        </div>
-        <div class="mb-3">
-            <label>No. HP (opsional)</label>
-            <input type="tel" name="no_hp" class="w-full border rounded p-2">
-        </div>
-        <div class="mb-3">
-            <label>Email (opsional)</label>
-            <input type="email" name="email" class="w-full border rounded p-2">
-        </div>
+
+        <x-form-input label="Nama Lengkap" name="nama_pengunjung" :required="true"/>
+        <x-form-input label="No. HP" name="no_hp" type="tel"/>
+        <x-form-input label="Email" name="email" type="email"/>
+
         <button type="submit"
-            class="w-full bg-blue-700 text-white py-3 rounded font-bold text-lg">
+            class="w-full bg-[#003580] text-white py-3 rounded-lg font-semibold text-base
+                   hover:bg-blue-800 transition mt-2">
             🎫 Ambil Nomor Antrian
         </button>
     </form>
+</x-card>
 
-    <div class="mt-6 text-center">
-        <a href="{{ route('pengaduan.create') }}" class="text-sm text-gray-500 underline">
-            📢 Kirim Pengaduan
-        </a>
-    </div>
-</main>
+<div class="mt-5 flex justify-center gap-6 text-sm">
+    <a href="{{ route('antrian.display') }}" class="text-blue-600 hover:underline">
+        📺 Lihat Display Antrian
+    </a>
+    <a href="{{ route('pengaduan.create') }}" class="text-gray-500 hover:underline">
+        📢 Kirim Pengaduan
+    </a>
+</div>
+@endsection

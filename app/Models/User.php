@@ -48,4 +48,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Antrian yang ditangani petugas ini
+    public function antrian()
+    {
+        return $this->hasMany(Antrian::class, 'petugas_id');
+    }
+
+    // Penilaian yang diterima petugas ini
+    public function penilaianSebagaiPetugas()
+    {
+        return $this->hasMany(Penilaian::class, 'petugas_id');
+    }
 }
