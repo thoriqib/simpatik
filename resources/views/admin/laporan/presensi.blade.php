@@ -20,7 +20,7 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
-            <select name="tahun" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <select name="tahun" class="border border-gray-300 rounded-lg px-7 py-2 text-sm">
                 @foreach(range(now()->year - 1, now()->year + 1) as $t)
                     <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>{{ $t }}</option>
                 @endforeach
@@ -45,6 +45,7 @@
                 <th class="pb-3 font-medium text-center text-red-600">Alpha</th>
                 <th class="pb-3 font-medium text-center text-gray-500">Terjadwal</th>
                 <th class="pb-3 font-medium text-center">% Hadir</th>
+                <th class="pb-3 font-medium text-center text-red-500">Kurang Jam</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -66,6 +67,21 @@
                         <span class="text-xs text-gray-600 w-8">{{ $persen }}%</span>
                     </div>
                 </td>
+                {{-- Tambahkan di <tbody> per baris --}}
+            @php
+                $totalKurang = $jadwal
+                    ->where('user_id', $userId ?? 0)
+                    ->sum(fn($j) => $j->presensi?->kekurangan_menit ?? 0);
+            @endphp
+            <td class="py-3 text-center text-sm">
+                @if($r['total_kekurangan'] > 0)
+                    <span class="text-red-500 font-semibold">
+                        {{ floor($r['total_kekurangan'] / 60) }}j {{ $r['total_kekurangan'] % 60 }}m
+                    </span>
+                @else
+                    <span class="text-green-500 text-xs">✓</span>
+                @endif
+            </td>
             </tr>
             @empty
             <tr>

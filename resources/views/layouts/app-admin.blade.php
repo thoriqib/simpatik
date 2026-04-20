@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin') — PST BPS Kota Jambi</title>
+    <title>@yield('title', 'Admin') — SIMPATIK - PST BPS Kota Jambi</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- Alpine.js sudah di-bundle via app.js --}}
 </head>
@@ -15,8 +15,8 @@
     <div class="flex items-center gap-3 px-6 py-5 border-b border-blue-700">
         <img src="{{ asset('images/logo-bps.png') }}" alt="BPS" class="h-10">
         <div>
-            <div class="font-bold text-sm leading-tight">PST BPS</div>
-            <div class="text-xs text-blue-200">Kota Jambi</div>
+            <div class="font-bold text-sm leading-tight">SIMPATIK 1571</div>
+            <div class="text-xs text-blue-200">Sistem Informasi Manajemen Pelayanan Statistik BPS Kota Jambi</div>
         </div>
     </div>
 
@@ -109,6 +109,21 @@
             </svg>
             Lap. Presensi
         </a>
+        {{-- Di dalam <nav> admin, tambahkan setelah "Lap. Presensi" --}}
+        <p class="text-xs text-blue-300 uppercase tracking-wider px-3 pt-4 pb-1">Penilaian</p>
+        <a href="{{ route('admin.penilaian.index') }}"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-blue-700 transition
+                {{ request()->routeIs('admin.penilaian.*') ? 'bg-blue-700' : '' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0
+                        1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755
+                        1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197
+                        -1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81
+                        .588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+            </svg>
+            Semua Penilaian
+        </a>
     </nav>
 
     {{-- Profil bawah --}}
@@ -161,6 +176,20 @@
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                 </svg>
                 {{ session('error') }}
+            </div>
+        @endif
+        @if(session('warning'))
+            <div class="bg-yellow-50 border border-yellow-200 text-yellow-800
+                        px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 flex-shrink-0 text-yellow-500"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213
+                            2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11
+                            13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1
+                            1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ session('warning') }}
             </div>
         @endif
     </div>

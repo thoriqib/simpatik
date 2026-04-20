@@ -72,7 +72,10 @@ class AntrianPublikController extends Controller
         $menunggu = Antrian::whereDate('tanggal', today())
             ->where('status', 'menunggu')
             ->count();
+        $selesai = Antrian::whereDate('tanggal', today())
+            ->where('status', 'selesai')
+            ->count();
 
-        return view('publik.display-antrian', compact('antrian', 'menunggu'));
+        return view('publik.display-antrian', compact('antrian', 'menunggu', 'selesai'));
     }
 }

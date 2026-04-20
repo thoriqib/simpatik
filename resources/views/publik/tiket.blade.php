@@ -73,13 +73,24 @@
                    hover:bg-gray-50 transition flex items-center gap-2 border">
             📺 Display
         </a>
-        @if($antrian->status === 'selesai')
+
+        {{-- Tambahkan di halaman tiket, di bawah tombol Display --}}
+        <a href="{{ route('antrian.tiket', $antrian->kode_antrian) }}"
+            x-data
+            @click="setTimeout(() => location.reload(), 0)"
+            class="no-print bg-gray-100 text-gray-600 px-5 py-3 rounded-full font-medium
+                shadow hover:bg-gray-200 transition flex items-center gap-2 border text-sm">
+            🔄 Refresh Status
+        </a>
+
+        @if($antrian->status === 'selesai' && !$antrian->penilaian)
         <a href="{{ route('penilaian.create', $antrian->kode_antrian) }}"
-            class="bg-yellow-400 text-yellow-900 px-6 py-3 rounded-full font-semibold shadow-lg
-                   hover:bg-yellow-300 transition flex items-center gap-2">
-            ⭐ Beri Nilai
+            class="no-print bg-yellow-400 text-yellow-900 px-6 py-3 rounded-full font-semibold
+                shadow-lg hover:bg-yellow-300 transition flex items-center gap-2">
+            ⭐ Beri Penilaian
         </a>
         @endif
+
     </div>
 
 </body>

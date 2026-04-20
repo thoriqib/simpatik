@@ -4,6 +4,40 @@
 @section('page-title', 'Jadwal Piket')
 
 @section('content')
+{{-- Form tambah jadwal --}}
+<x-card title="Tambah Jadwal Piket" class="mt-5">
+    <form method="POST" action="{{ route('admin.jadwal.store') }}"
+          class="flex flex-wrap gap-4 items-end">
+        @csrf
+        <div class="flex-1 min-w-40">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Petugas</label>
+            <select name="user_id" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
+                <option value="">Pilih petugas...</option>
+                @foreach($petugas as $p)
+                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="flex-1 min-w-36">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Shift</label>
+            <select name="shift_id" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
+                <option value="">Pilih shift...</option>
+                @foreach($shifts as $s)
+                    <option value="{{ $s->id }}">{{ $s->nama_shift }} ({{ $s->jam_mulai }})</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
+            <input type="date" name="tanggal" min="{{ today()->toDateString() }}"
+                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
+        </div>
+        <button type="submit"
+            class="bg-[#003580] text-white px-5 py-2 rounded-lg text-sm font-medium">
+            Tambah
+        </button>
+    </form>
+</x-card>
 {{-- Filter bulan/tahun --}}
 <x-card class="mt-4 mb-5">
     <form method="GET" action="{{ route('admin.jadwal.index') }}" class="flex flex-wrap gap-3 items-end">
@@ -19,9 +53,14 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
-            <select name="tahun" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <select 
+                name="tahun" 
+                class="border border-gray-300 rounded-xl px-7 py-2 text-sm shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
                 @foreach(range(now()->year - 1, now()->year + 1) as $t)
-                    <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>{{ $t }}</option>
+                    <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>
+                        {{ $t }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -73,38 +112,5 @@
     </table>
 </x-card>
 
-{{-- Form tambah jadwal --}}
-<x-card title="Tambah Jadwal Piket" class="mt-5">
-    <form method="POST" action="{{ route('admin.jadwal.store') }}"
-          class="flex flex-wrap gap-4 items-end">
-        @csrf
-        <div class="flex-1 min-w-40">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Petugas</label>
-            <select name="user_id" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
-                <option value="">Pilih petugas...</option>
-                @foreach($petugas as $p)
-                    <option value="{{ $p->id }}">{{ $p->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="flex-1 min-w-36">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Shift</label>
-            <select name="shift_id" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
-                <option value="">Pilih shift...</option>
-                @foreach($shifts as $s)
-                    <option value="{{ $s->id }}">{{ $s->nama_shift }} ({{ $s->jam_mulai }})</option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-            <input type="date" name="tanggal" min="{{ today()->toDateString() }}"
-                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
-        </div>
-        <button type="submit"
-            class="bg-[#003580] text-white px-5 py-2 rounded-lg text-sm font-medium">
-            Tambah
-        </button>
-    </form>
-</x-card>
+
 @endsection

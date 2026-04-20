@@ -31,4 +31,10 @@ class Antrian extends Model
         $nomorBaru = $lastNo + 1;
         return $jenis->kode . str_pad($nomorBaru, 3, '0', STR_PAD_LEFT);
     }
+
+    protected $casts = [
+    'tanggal' => 'date',
+    'waktu_mulai_layanan' => 'datetime',
+    'waktu_selesai' => 'datetime',
+    ];
 }

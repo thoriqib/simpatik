@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengaduan extends Model
 {
+    protected $table = 'pengaduan';
     protected $fillable = [
         'subjek', 'isi_pengaduan', 'lampiran', 'status',
         'tanggapan', 'ditangani_oleh', 'ditanggapi_pada'

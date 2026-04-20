@@ -2,38 +2,53 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat role (hanya untuk pengguna sistem internal)
-        $admin    = Role::create(['name' => 'admin']);
-        $petugas  = Role::create(['name' => 'petugas']);
-        // Catatan: pengunjung TIDAK memiliki role — mereka mengakses sebagai tamu (guest)
+        // Reset cache permission
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        // Buat role
+        $admin   = Role::firstOrCreate(['name' => 'admin']);
+        $petugas = Role::firstOrCreate(['name' => 'petugas']);
 
         // Buat permission
         $permissions = [
-            'kelola-petugas', 'kelola-jadwal', 'kelola-shift',
-            'lihat-laporan', 'kelola-antrian', 'presensi',
+            'kelola-petugas',
+            'kelola-jadwal',
+            'kelola-shift',
+            'kelola-jenis-layanan',
+            'lihat-laporan',
+            'kelola-antrian',
+            'presensi',
+            'tanggapi-pengaduan',
         ];
+
         foreach ($permissions as $p) {
-            Permission::create(['name' => $p]);
+            Permission::firstOrCreate(['name' => $p]);
         }
 
         // Assign permission ke role
-        $admin->givePermissionTo(Permission::all());
-        $petugas->givePermissionTo(['kelola-antrian', 'presensi', 'lihat-laporan']);
+        $admin->syncPermissions(Permission::all());
+        $petugas->syncPermissions(['kelola-antrian', 'presensi', 'lihat-laporan']);
 
-        // Buat akun admin default
-        $userAdmin = User::create([
-            'name'     => 'Administrator Pelayanan BPS Kota Jambi',
-            'email'    => 'admin1571@bps.go.id',
-            'password' => bcrypt('admin1571'),
-        ]);
+        // Buat akun admin
+        $userAdmin = User::firstOrCreate(
+            ['email' => 'admin@bps-jambi.go.id'],
+            [
+                'name'              => 'Administrator BPS',
+                'password'          => Hash::make('Admin@BPS2024'),
+                'email_verified_at' => now(),
+            ]
+        );
         $userAdmin->assignRole('admin');
+
+        $this->command->info('✅ Role, Permission, dan akun Admin berhasil dibuat.');
     }
 }

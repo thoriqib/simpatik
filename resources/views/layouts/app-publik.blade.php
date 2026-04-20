@@ -15,6 +15,24 @@
             <div>
                 <div class="font-bold text-lg leading-tight">PST BPS Kota Jambi</div>
                 <div class="text-blue-200 text-sm">Pelayanan Statistik Terpadu</div>
+                {{-- Di dalam <header>, setelah teks "Pelayanan Statistik Terpadu" --}}
+                <nav class="max-w-2xl mx-auto px-4 py-2 flex gap-4 text-sm border-t border-blue-700">
+                    <a href="{{ route('home') }}"
+                    class="text-blue-200 hover:text-white transition
+                            {{ request()->routeIs('home') ? 'text-white font-semibold' : '' }}">
+                        🎫 Antrian
+                    </a>
+                    <a href="{{ route('jadwal.publik') }}"
+                    class="text-blue-200 hover:text-white transition
+                            {{ request()->routeIs('jadwal.publik') ? 'text-white font-semibold' : '' }}">
+                        📅 Jadwal Petugas
+                    </a>
+                    <a href="{{ route('pengaduan.create') }}"
+                    class="text-blue-200 hover:text-white transition
+                            {{ request()->routeIs('pengaduan.create') ? 'text-white font-semibold' : '' }}">
+                        📢 Pengaduan
+                    </a>
+                </nav>
             </div>
         </div>
     </header>

@@ -99,16 +99,19 @@ class LaporanController extends Controller
             ->get();
 
         // Rekap per petugas
-        $rekapPerPetugas = $jadwal->groupBy('user_id')->map(function ($items, $userId) {
+        $rekapPerPetugas = $jadwal->groupBy('user_id')->map(function ($items) {
             $petugas = $items->first()->petugas;
             return [
-                'nama'       => $petugas->name,
-                'hadir'      => $items->where('status', 'hadir')->count(),
-                'izin'       => $items->where('status', 'izin')->count(),
-                'sakit'      => $items->where('status', 'sakit')->count(),
-                'alpha'      => $items->where('status', 'alpha')->count(),
-                'terjadwal'  => $items->where('status', 'terjadwal')->count(),
-                'total'      => $items->count(),
+                'nama'             => $petugas->name,
+                'hadir'            => $items->where('status', 'hadir')->count(),
+                'izin'             => $items->where('status', 'izin')->count(),
+                'sakit'            => $items->where('status', 'sakit')->count(),
+                'alpha'            => $items->where('status', 'alpha')->count(),
+                'terjadwal'        => $items->where('status', 'terjadwal')->count(),
+                'total'            => $items->count(),
+                'total_kekurangan' => $items->sum(  // ← BARU
+                    fn($j) => $j->presensi?->kekurangan_menit ?? 0
+                ),
             ];
         })->values();
 
