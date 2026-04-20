@@ -15,8 +15,8 @@
     <div class="flex items-center gap-3 px-6 py-5 border-b border-blue-700">
         <img src="{{ asset('images/logo-bps.png') }}" alt="BPS" class="h-10">
         <div>
-            <div class="font-bold text-sm leading-tight">SIMPATIK 1571</div>
-            <div class="text-xs text-blue-200">Sistem Informasi Manajemen Pelayanan Statistik BPS Kota Jambi</div>
+            <div class="font-bold text-sm leading-tight">SIMPATIK</div>
+            <div class="text-xs text-blue-200">Sistem Informasi Manajemen Pelayanan Statistik</div>
         </div>
     </div>
 

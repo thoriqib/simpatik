@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Pelayanan') — PST BPS Kota Jambi</title>
+    <title>@yield('title', 'Pelayanan') SIMPATIK — PST BPS Kota Jambi</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 font-sans min-h-screen flex flex-col">
